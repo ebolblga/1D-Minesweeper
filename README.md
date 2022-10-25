@@ -1,42 +1,25 @@
-# Nuxt 3 Minimal Starter
+# 1D-Minesweeper
+## 1 dimentional remake of an old classic
+![image](https://user-images.githubusercontent.com/82185066/197850099-bc2fe963-a41b-4ab0-867b-1529708c8efd.png)
 
-Look at the [nuxt 3 documentation](https://v3.nuxtjs.org) to learn more.
+Texture atlas is also 1D:  
+![image](https://user-images.githubusercontent.com/82185066/197850339-6fef63d5-78a2-4dbb-a599-cef29248a9a2.png)
 
-## Setup
-
-Make sure to install the dependencies:
-
-```bash
-# yarn
-yarn install
-
-# npm
-npm install
-
-# pnpm
-pnpm install --shamefully-hoist
-```
-
-## Development Server
-
-Start the development server on http://localhost:3000
+## How to launch yourself using [Node.js](https://nodejs.org/en/) and [Visual Studio Code](https://code.visualstudio.com/download)
 
 ```bash
-npm run dev
+# install yarn
+npm install --global yarn
+
+# now install all modules
+yarn
+
+# now start project
+yarn dev
+
+# build ssg version
+yarn build
 ```
 
-## Production
-
-Build the application for production:
-
-```bash
-npm run build
-```
-
-Locally preview production build:
-
-```bash
-npm run preview
-```
-
-Checkout the [deployment documentation](https://v3.nuxtjs.org/guide/deploy/presets) for more information.
+## License
+This program is licensed under the Apache License 2.0. Please read the License file to know about the usage terms and conditions.
