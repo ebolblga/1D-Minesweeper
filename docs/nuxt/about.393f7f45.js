@@ -1,0 +1,1 @@
+import{a as e,b as t,e as o,o as a}from"./entry.c8d69ef6.js";const s={class:"flex justify-center flex-wrap pt-2 flex-col items-center min-w-[300px]"},p=e({__name:"about",setup(n){return t({title:"About"}),(c,r)=>(a(),o("div",s," about.vue "))}});export{p as default};
