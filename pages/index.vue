@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { onMounted } from '#imports'
+import { set } from 'nuxt/dist/app/compat/capi';
 useHead({ title: "1D Minesweeper" });
-const size = 16;
-const mineCount = 3;
+const size = ref(16);
+const mineCount = ref(3);
+const isCustom = ref(false);
 let map = [];
 let canvas;
 let ctx;
@@ -26,7 +28,7 @@ class Cell {
         this.isMine = isMine;
         this.type = type;
         this.width = 16;
-        this.height = 17;
+        this.height = 16;
     }
 
     draw() {
@@ -39,8 +41,15 @@ onMounted(async ()=>{
 });
 
 async function setup() {
+    if (mineCount.value > Math.floor(size.value / 3)) {
+        mineCount.value = Math.floor(size.value / 3);
+        if (mineCount.value < 1) {
+            mineCount.value = 1;
+        }
+    }
+
     canvas = document.querySelector("canvas");
-    canvas.width = 16 * size;
+    canvas.width = 16 * size.value;
     canvas.height = 17;
     ctx = canvas.getContext("2d");
 
@@ -67,17 +76,17 @@ async function setup() {
 
 async function genMap() {
     // Generation of map with correct size
-    for(let i = 0; i < size; i++) {
+    for(let i = 0; i < size.value; i++) {
         map[i] = false;
     }
 
     // Fills map with mines (true = cell has mine, false = doesn't)
     let isPlanted;
     let index;
-    for (let i = 0; i < mineCount; i++) {
+    for (let i = 0; i < mineCount.value; i++) {
         isPlanted = false;
         while (!isPlanted) {
-            index = Math.floor(Math.random() * size)
+            index = Math.floor(Math.random() * size.value)
             if (!map[index]) {
                 map[index] = true;
                 isPlanted = true;
@@ -106,7 +115,7 @@ async function lClickCell(event) {
 
             indexRec = index + 1;
             count = 0;
-            while ((count === 0) && (indexRec < size)) {
+            while ((count === 0) && (indexRec < size.value)) {
                 count = neighbors(indexRec);
                 tiles[indexRec].type = count;
                 tiles[indexRec].draw();
@@ -174,7 +183,7 @@ function neighbors(index) {
         }
     }
 
-    if (index < size - 1) {
+    if (index < size.value - 1) {
         if (tiles[index + 1].isMine) {
             count++;
         }
@@ -187,7 +196,24 @@ function neighbors(index) {
 <template>
     <div class="flex justify-center flex-wrap pt-2 flex-col items-center min-w-[300px]">
         <button @click="debug()">Debug</button>
-        <button @click="setup()">Start game</button>
-        <canvas @click="lClickCell($event)" @contextmenu.prevent="rClickCell($event)" class="w-[95%] mt-5" style="image-rendering: pixelated"></canvas>
+        <div class="border-4 border-[#0855DD] w-[95vw] rounded-lg bg-[#C0C0C0] min-w-[300px]">
+            <div class="w-full h-6 bg-[#0855DD] text-white font-bold pl-3">1D Minesweeper</div>
+            <div class="bg-[#ECE9D8] text-left flex flex-row">
+                <p class="ml-2 cursor-pointer" @click="size = 8; mineCount = 1; setup(); isCustom = false;">Beginner</p>
+                <p class="ml-2 cursor-pointer" @click="size = 16; mineCount = 3; setup(); isCustom = false;">Intermediate</p>
+                <p class="ml-2 cursor-pointer" @click="size = 30; mineCount = 6; setup(); isCustom = false;">Expert</p>
+                <div class="text-left h-6 w-full flex flex-row-reverse">
+                    <input class="mr-2 border-2 w-10 cursor-pointer" type="number" v-model = mineCount :disabled="!isCustom" @change="setup()" min="1" max="200"/>
+                    <input class="mr-2 border-2 w-10 cursor-pointer" type="number" v-model = size :disabled="!isCustom" @change="setup()" min="1" max="200"/>
+                    <p class="mr-2" @click="setup(); isCustom = true;">Custom</p>
+                </div>
+            </div>
+            <div class="bg-white p-1">
+                <img @click="setup()" src="/assets/alive.png" style="image-rendering: pixelated" class="ml-auto mr-auto my-2 cursor-pointer" />
+                <div class="bg-[#808080] p-1">
+                    <canvas @click="lClickCell($event)" @contextmenu.prevent="rClickCell($event)" class="w-full" style="image-rendering: pixelated"></canvas>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
