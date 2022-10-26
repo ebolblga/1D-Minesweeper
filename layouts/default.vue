@@ -25,7 +25,6 @@ useHead({
 <style>
 body {
   background: #ECE9D8;
-  /* background-image: url("/BG.png"); */
   background-size: 100% 100%;
   font-size: 14px;
   color: #000000;

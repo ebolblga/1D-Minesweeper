@@ -4,7 +4,7 @@ useHead({ title: "About" });
 
 <template>
     <div class="min-w-[300px] mt-10 p-5">
-        <a class="font-bold text-4xl underline" href="https://github.com/ebolblga/1D-Minesweeper" target="_blank" rel="noopener noreferrer"></a>1D Minesweeper</a>
+        <a class="font-bold text-4xl underline" href="https://github.com/ebolblga/1D-Minesweeper" target="_blank" rel="noopener noreferrer">1D Minesweeper</a>
         <p class="mt-3 font-bold text-lg">1 dimensional remake of an old classic</p>
         <p class="mt-3">Minesweeper is a logic game that became famous after getting included in Windows 3.1 release. More about this game and it's rules you can read on <a class="underline" href="https://minesweepergame.com/website/authoritative-minesweeper/wiki/Windows_Minesweeper" target="_blank" rel="noopener noreferrer">MinesweeperWiki</a>. While the original game is 2D (everything happens on a plane), my idea was to make it only 1D (everything happens on a single line). You can find 3D and even 4D versions on the internet, but to my surprise no one was dumb enough to remake it in a single dimension untill me.</p>
         <p class="mt-3 text-center text-gray-700 italic">Texture atlas is also 1D:</p>
