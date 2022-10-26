@@ -10,7 +10,8 @@ let canvas, ctx; // game canvas
 let tiles = []; // tile map
 const isOver = ref(false);  // true if game ended
 let firstClick = true;  // used to move mine on first click
-const totalClicks = ref(0);  // counts clicks
+const leftClicks = ref(0);  // counts left clicks
+const rightClicks = ref(0); // counts right clicks
 const startTime = ref();    // keeps time of the first click
 const finalTime = ref(0);    // calculated total time the game took
 const won = ref(false); // true if player won
@@ -89,7 +90,8 @@ async function setupGame() {
     setFavicon(1);
     isOver.value = false;
     firstClick = true;
-    totalClicks.value = 0;
+    leftClicks.value = 0;
+    rightClicks.value = 0;
     finalTime.value = 0;
     won.value = false;
     _3bv.value = 0;
@@ -204,7 +206,7 @@ async function leftClickEvent(event) {
     }
     
     tiles[index].draw();
-    totalClicks.value++;
+    leftClicks.value++;
 
     if (checkWin()) {
         stopGame(true); 
@@ -225,7 +227,7 @@ async function rightClickEvent(event) {
     }
 
     tiles[index].draw();
-    totalClicks.value++;
+    rightClicks.value++;
 }
 
 function getMousePos(canvas, evt) {
@@ -374,8 +376,9 @@ function bbbv() {
                         <img v-if="isOver && won" @click="setupGame()" src="/assets/won.png" style="image-rendering: pixelated" class="ml-auto mr-auto my-2 cursor-pointer" />
                         <img v-if="isOver && !won" @click="setupGame()" src="/assets/lost.png" style="image-rendering: pixelated" class="ml-auto mr-auto my-2 cursor-pointer" />
                     </div>
-                    <div class="w-[33%] h-[64px] text-center my-auto text-[#FF0000] text-lg font-black">
+                    <div class="w-[33%] h-[64px] text-center my-auto text-[#FF0000] text-lg font-black flex flex-col">
                         <p>{{ mapSize }}x1</p>
+                        <!-- <img src="/assets/display/0.png" style="image-rendering: pixelated" class="ml-auto mr-auto cursor-pointer h-[64px]" /> -->
                     </div>
                 </div>
                 <div class="bg-[#808080] p-1">
@@ -390,10 +393,12 @@ function bbbv() {
                 <p>Time: <b>{{ finalTime / 1000 }}</b> sec</p>
                 <a href="http://www.stephan-bechtel.de/3bv.htm" target="_blank" rel="noopener noreferrer" class="underline">3BV: {{ _3bv }}</a><br>
                 <a href="https://minesweepergame.com/website/authoritative-minesweeper/wiki/3BV#3BV_and_3BV.2Fs" target="_blank" rel="noopener noreferrer" class="underline">3BV/sec: {{ Math.round((_3bv / (finalTime / 1000)) * 10000) / 10000 }}</a>
-                <p>Clicks: {{ totalClicks }}</p>
-                <p>Efficiency: {{ Math.round(((_3bv / totalClicks) * 100) * 10000) / 10000 }}%</p>
-                <p>CL/s: {{ Math.round((totalClicks / (finalTime / 1000)) * 10000) / 10000 }}</p>
+                <p>Clicks: {{ leftClicks }} + {{ rightClicks }}</p>
+                <p>Efficiency: {{ Math.round(((_3bv / (leftClicks + rightClicks)) * 100) * 10000) / 10000 }}%</p>
+                <p>CL/s: {{ Math.round(((leftClicks + rightClicks) / (finalTime / 1000)) * 10000) / 10000 }}</p>
                 <p>Mine density: {{ Math.round((mineCount / mapSize * 100) * 10000) / 10000 }}%</p>
+                <a href="https://minesweepergame.com/statistics.php" target="_blank" rel="noopener noreferrer" class="underline">IOE: {{ Math.round((_3bv / (leftClicks + rightClicks)) * 10000) / 10000 }}</a><br>
+                <a href="https://minesweepergame.com/statistics.php" target="_blank" rel="noopener noreferrer" class="underline">RQP: {{ Math.round((finalTime / 1000) /  _3bv / (finalTime / 1000) * 10000) / 10000 }}</a><br>
             </div>
         </div>
     </div>
