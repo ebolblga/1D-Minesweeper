@@ -54,6 +54,7 @@ async function setup() {
     finalTime.value = 0;
     won.value = false;
     _3bv.value = 0;
+    flagsLeft.value = mineCount.value;
 
     if (mineCount.value > Math.floor(size.value / 3)) {
         mineCount.value = Math.floor(size.value / 3);
@@ -302,7 +303,12 @@ function tbv() {
     <div class="flex justify-center flex-wrap pt-2 flex-col items-center min-w-[300px]">
         <!-- <button @click="debug()">Debug</button> -->
         <div class="border-4 border-[#0855DD] w-[95vw] rounded-lg bg-[#C0C0C0] min-w-[300px] mt-5">
-            <div class="w-full h-6 bg-[#0855DD] text-white font-bold pl-3">1D Minesweeper</div>
+            <div class="w-full h-6 bg-[#0855DD] text-white font-bold px-3 flex flex-row justify-between">
+                1D Minesweeper
+                <a href="https://youtu.be/Gb2jGy76v0Y" target="_blank" rel="noopener noreferrer">
+                    <img  src="/assets/bar.png" style="image-rendering: pixelated" class="cursor-pointer h-4 mt-1" />
+                </a>
+            </div>
             <div class="bg-[#ECE9D8] text-left flex flex-row">
                 <p class="ml-2 cursor-pointer" @click="size = 8; mineCount = 1; setup(); isCustom = false;">Beginner</p>
                 <p class="ml-2 cursor-pointer" @click="size = 16; mineCount = 3; setup(); isCustom = false;">Intermediate</p>
@@ -315,15 +321,15 @@ function tbv() {
             </div>
             <div class="bg-white p-1">
                 <div class="border-4 border-[#808080] bg-[#C0C0C0] flex flex-row">
-                    <div class="w-[33%] h-full text-center my-auto text-[#FF0000] text-lg font-black">
+                    <div class="w-[33%] h-[64px] text-center my-auto text-[#FF0000] text-lg font-black">
                         <p>{{ flagsLeft }}</p>
                     </div>
-                    <div class="w-[33%] h-full">
+                    <div class="w-[33%] h-[64px]">
                         <img v-if="!isOver" @click="setup()" src="/assets/default.png" style="image-rendering: pixelated" class="ml-auto mr-auto my-2 cursor-pointer" />
                         <img v-if="isOver && won" @click="setup()" src="/assets/won.png" style="image-rendering: pixelated" class="ml-auto mr-auto my-2 cursor-pointer" />
                         <img v-if="isOver && !won" @click="setup()" src="/assets/lost.png" style="image-rendering: pixelated" class="ml-auto mr-auto my-2 cursor-pointer" />
                     </div>
-                    <div class="w-[33%] h-full text-center my-auto text-[#FF0000] text-lg font-black">
+                    <div class="w-[33%] h-[64px] text-center my-auto text-[#FF0000] text-lg font-black">
                         <p>{{ size }}x1</p>
                     </div>
                 </div>
