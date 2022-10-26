@@ -16,6 +16,9 @@ One of the biggest challenges of 1D games is making players understand what is h
 
 I tried my best to stay as close to the original game as possible, for example if it happens that you click on mine on your first click, min will get moved to top left corner (or step to the right untill finds free spot).
 
+![image](https://user-images.githubusercontent.com/82185066/198094451-85f70995-d1ca-4635-a152-ed5030b07ef9.png)
+
+
 ## How to launch yourself using [Node.js](https://nodejs.org/en/) and [Visual Studio Code](https://code.visualstudio.com/download)
 
 ```bash
