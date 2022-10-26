@@ -17,7 +17,7 @@ let isActive = ref(0);
             @click="isPressed = !isPressed"
             data-collapse-toggle="navbar-cta"
             type="button"
-            class="inline-flex items-center p-2 text-sm rounded-lg md:hidden focus:outline-none focus:ring-2 text-gray-400 hover:bg-gray-700 focus:ring-gray-600"
+            class="inline-flex items-center p-2 text-sm rounded-lg md:hidden focus:outline-none focus:ring-2 text-gray-400 hover:text-white focus:text-[#ffffffa8]"
             aria-controls="navbar-cta"
             aria-expanded="false"
           >
@@ -43,13 +43,13 @@ let isActive = ref(0);
           id="navbar-cta"
         >
           <ul
-            class="flex flex-col p-4 mt-4 rounded-lg border md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 bg-[#0058EE] border-gray-700"
+            class="flex flex-col mt-1 rounded-lg md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium"
           >
             <li>
               <NuxtLink
                 to="/"
                 title="1D Minesweeper"
-                class="block py-2 pr-4 pl-3 md:p-0 md:hover:text-white text-gray-400 hover:bg-gray-700 hover:text-white md:hover:bg-transparent border-gray-700"
+                class="block py-2 pr-4 pl-3 md:p-0 md:hover:text-white text-gray-400 hover:text-white md:hover:bg-transparent border-gray-700"
                 :class="{ selected: ($route.name=='index') }"
                 aria-current="page"
                 >Game</NuxtLink
@@ -59,9 +59,9 @@ let isActive = ref(0);
               <NuxtLink
                 to="/about"
                 title="About this project"
-                class="block py-2 pr-4 pl-3 md:p-0 md:hover:text-white text-gray-400 hover:bg-gray-700 hover:text-white md:hover:bg-transparent border-gray-700"
+                class="block py-2 pr-4 pl-3 md:p-0 md:hover:text-white text-gray-400 hover:text-white md:hover:bg-transparent border-gray-700"
                 :class="{ selected: ($route.name=='about') }"
-                >Help</NuxtLink
+                >About</NuxtLink
               >
             </li>
           </ul>
