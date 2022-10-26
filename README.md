@@ -1,6 +1,6 @@
 # 1D-Minesweeper
 ## 1 dimensional remake of an old classic
-![image](https://user-images.githubusercontent.com/82185066/197850099-bc2fe963-a41b-4ab0-867b-1529708c8efd.png)  
+![image](https://user-images.githubusercontent.com/82185066/197916082-86298f11-fd51-469a-9440-6fa983172319.png)  
 
 Minesweeper is a logic game that became famous after getting included in Windows 3.1 release. More about this game and it's rules you can read on [MinesweeperWiki](https://minesweepergame.com/website/authoritative-minesweeper/wiki/Windows_Minesweeper). While the original game is 2D (everything happens on a plane), my idea was to make it only 1D (everything happens on a single line). You can find 3D and even 4D versions on the internet, but to my surprise no one was dumb enough to remake it in a single dimension untill me.
 
@@ -13,6 +13,8 @@ One of the biggest challenges of 1D games is making players understand what is h
 - flag uses gradient, emulating original triangular look
 - mines are spiky
 - crossed mine uses same 2 red lines, just positioned differently
+
+I tried my best to stay as close to the original game as possible, for example if it happens that you click on mine on your first click, min will get moved to top left corner (or step to the right untill finds free spot).
 
 ## How to launch yourself using [Node.js](https://nodejs.org/en/) and [Visual Studio Code](https://code.visualstudio.com/download)
 
