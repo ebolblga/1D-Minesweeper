@@ -9,9 +9,9 @@ let isActive = ref(0);
       <div
         class="container flex flex-wrap justify-between items-center mx-auto"
       >
-        <NuxtLink to="/" @click="isActive = 0" class="flex items-center">
+        <a href = '/' @click="isActive = 0" class="flex items-center">
           <img src="/logo.png" class="mr-3 h-6 sm:h-9" alt="Logo" />
-        </NuxtLink>
+        </a>
         <div class="flex md:order-2">
           <button
             @click="isPressed = !isPressed"
@@ -46,13 +46,13 @@ let isActive = ref(0);
             class="flex flex-col mt-1 rounded-lg md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium"
           >
             <li>
-              <NuxtLink
-                to="/"
+              <a
+                href = '/'
                 title="1D Minesweeper"
                 class="block py-2 pr-4 pl-3 md:p-0 md:hover:text-white text-gray-400 hover:text-white md:hover:bg-transparent border-gray-700"
                 :class="{ selected: ($route.name=='index') }"
                 aria-current="page"
-                >Game</NuxtLink
+                >Game</a
               >
             </li>
             <li>

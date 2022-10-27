@@ -17,6 +17,9 @@ const finalTime = ref(0);    // calculated total time the game took
 const won = ref(false); // true if player won
 const _3bv = ref(0);    // calculated 3bv http://www.stephan-bechtel.de/3bv.htm
 const flagsLeft = ref(3);   // flag display
+const srcTimer = ref("./assets/000.png");   // src of 6 segmend display for timer
+const srcMines = ref("./assets/000.png");   // src of 6 segmend display for mines
+let runTimer = false;   // variable to control timer
 
 const atlas = new Image();
 atlas.src = "./assets/texture_atlas.png";
@@ -29,6 +32,64 @@ let faviCanvas = document.createElement("canvas");
 faviCanvas.width = 16;
 faviCanvas.height = 16;
 let favictx = faviCanvas.getContext("2d");
+
+async function DrawMines(number) { 
+    const mineCanvas = document.createElement("canvas");
+    mineCanvas.width = 117;
+    mineCanvas.height = 64;
+    const mineCtx = mineCanvas.getContext("2d");
+
+    for (let i = 0; i < 3; i++) {
+        const digit = new Image();
+        digit.src = "./assets/display/" + number % 10 + ".png";
+        await new Promise((resolve) => {
+            digit.onload = () => resolve(1);
+        });
+
+        mineCtx.drawImage(digit, 78 - (i * 39), 0);
+        number = Math.floor(number / 10);
+    }
+
+    srcMines.value = mineCanvas.toDataURL();
+}
+
+async function DrawTimer(number) { 
+    const timerCanvas = document.createElement("canvas");
+    timerCanvas.width = 117;
+    timerCanvas.height = 64;
+    const timerCtx = timerCanvas.getContext("2d");
+
+    for (let i = 0; i < 3; i++) {
+        const digit = new Image();
+        digit.src = "./assets/display/" + number % 10 + ".png";
+        await new Promise((resolve) => {
+            digit.onload = () => resolve(1);
+        });
+
+        timerCtx.drawImage(digit, 78 - (i * 39), 0);
+        number = Math.floor(number / 10);
+    }
+
+    srcTimer.value = timerCanvas.toDataURL();
+}
+
+async function startTimer() {
+    let time = 0;
+    var myTimer = setInterval(() => {
+        if (!runTimer) {
+            clearInterval(myTimer);
+            return;
+        } 
+
+        time++;
+        if (time > 999) {
+            stopGame();
+            return;
+        }
+
+        DrawTimer(time);
+    }, 1000);
+}
 
 async function setFavicon(mode) {
     const img = new Image();
@@ -96,6 +157,8 @@ async function setupGame() {
     won.value = false;
     _3bv.value = 0;
     flagsLeft.value = mineCount.value;
+    runTimer = false;
+    srcTimer.value = "./assets/000.png";
 
     if (mineCount.value > Math.floor(mapSize.value / 3)) {
         mineCount.value = Math.floor(mapSize.value / 3);
@@ -105,9 +168,9 @@ async function setupGame() {
     }
 
     canvas = document.querySelector("canvas");
+    ctx = canvas.getContext("2d");
     canvas.width = 16 * mapSize.value;
     canvas.height = 17;
-    ctx = canvas.getContext("2d");
 
     tiles = [];
     map = [];
@@ -127,7 +190,9 @@ async function setupGame() {
 
     tiles.forEach((tile) => {
         tile.draw();
-    })
+    });
+
+    DrawMines(mineCount.value);
 }
 
 async function genMap() {
@@ -153,12 +218,37 @@ async function genMap() {
     // console.log(...map);
 }
 
-async function leftClickEvent(event) {
+async function leftClickEvent(event, idx = -1) {
     if (isOver.value) return;
     const pos = getMousePos(canvas, event);
-    const index = Math.floor(pos.x / 16);
+    let index = Math.floor(pos.x / 16);
+
+    if (idx >= 0) {
+        index = idx;
+    }
+
     if (tiles[index].type === 4) return;
+
+    if ((tiles[index].type === 1) && (index > 0) && (index < mapSize.value - 1)) {
+        let flags = 0;
+
+        if (tiles[index - 1].type === 4) {
+            flags++;
+        }
+
+        if (tiles[index + 1].type === 4) {
+            flags++;
+        }
+
+        if (flags != 0 && flags === tiles[index].type) {
+            leftClickEvent(event, index - 1);
+            leftClickEvent(event, index + 1);
+        }
+    }
+
     if (firstClick) {
+        runTimer = true;
+        startTimer();
         startTime.value = Date.now();
         if (tiles[index].isMine) {
             for(let i = 0; i < mapSize.value; i++) {
@@ -220,10 +310,12 @@ async function rightClickEvent(event) {
     if (tiles[index].type === 3) {
         tiles[index].type = 4;
         flagsLeft.value--;
+        DrawMines(flagsLeft.value);
     }
     else if (tiles[index].type === 4) {
         tiles[index].type = 3;
         flagsLeft.value++;
+        DrawMines(flagsLeft.value);
     }
 
     tiles[index].draw();
@@ -243,6 +335,7 @@ function getMousePos(canvas, evt) {
 
 async function stopGame(didWin = false) {
     finalTime.value = Date.now() - startTime.value;
+    runTimer = false;
     if (didWin) {
         setFavicon(2);
     }
@@ -366,22 +459,21 @@ function bbbv() {
                     <p class="mr-2" @click="setupGame(); isCustom = true;">Custom</p>
                 </div>
             </div>
-            <div class="bg-white p-1">
-                <div class="border-4 border-[#808080] bg-[#C0C0C0] flex flex-row">
-                    <div class="w-[33%] h-[64px] text-center my-auto text-[#FF0000] text-lg font-black">
-                        <p>{{ flagsLeft }}</p>
+            <div class="bg-[#ECE9D8] p-1">
+                <div class="border-4 border-t-[#808080] border-l-[#808080] border-r-[#FFFFFF] border-b-[#FFFFFF] bg-[#C0C0C0] flex flex-row h-[92px]">
+                    <div class="w-[33%] h-[66px] my-auto">
+                        <img :src="srcMines" style="image-rendering: pixelated" class="ml-auto mr-auto w-[117px] h-[68px] border-2 border-t-[#808080] border-l-[#808080] border-r-[#FFFFFF] border-b-[#FFFFFF]" />
                     </div>
-                    <div class="w-[33%] h-[64px]">
+                    <div class="w-[33%] h-[66px] my-auto">
                         <img v-if="!isOver" @click="setupGame()" src="/assets/default.png" style="image-rendering: pixelated" class="ml-auto mr-auto my-2 cursor-pointer" />
                         <img v-if="isOver && won" @click="setupGame()" src="/assets/won.png" style="image-rendering: pixelated" class="ml-auto mr-auto my-2 cursor-pointer" />
                         <img v-if="isOver && !won" @click="setupGame()" src="/assets/lost.png" style="image-rendering: pixelated" class="ml-auto mr-auto my-2 cursor-pointer" />
                     </div>
-                    <div class="w-[33%] h-[64px] text-center my-auto text-[#FF0000] text-lg font-black flex flex-col">
-                        <p>{{ mapSize }}x1</p>
-                        <!-- <img src="/assets/display/0.png" style="image-rendering: pixelated" class="ml-auto mr-auto cursor-pointer h-[64px]" /> -->
+                    <div class="w-[33%] h-[66px] my-auto">
+                        <img :src="srcTimer" style="image-rendering: pixelated" class="ml-auto mr-auto w-[117px] h-[68px] border-2 border-t-[#808080] border-l-[#808080] border-r-[#FFFFFF] border-b-[#FFFFFF]" />
                     </div>
                 </div>
-                <div class="bg-[#808080] p-1">
+                <div class="mt-1 border-4 border-t-[#808080] border-l-[#808080] border-r-[#FFFFFF] border-b-[#FFFFFF]">
                     <canvas @click="leftClickEvent($event)" @contextmenu.prevent="rightClickEvent($event)" class="w-full" style="image-rendering: pixelated" width="256" height="16" ></canvas>
                 </div>
             </div>
