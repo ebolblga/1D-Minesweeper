@@ -56,6 +56,13 @@ After watching a video by [хGames Computers Play](https://youtu.be/YTnelZkjB68)
 Since original Minesweeper used 7 segment display, I went for -1 here too and used 6 segment display. Insporation came from [Posy](https://youtu.be/RTB5XhjbgZA) and his 6 segment display design called [X Black](http://www.michieldb.nl/other/segments/). I made a pixelated version of it with nice [Bayer2x2](https://en.wikipedia.org/wiki/Ordered_dithering) dithering for unlit segments and I think it looks really cool:  
 ![image](https://user-images.githubusercontent.com/82185066/198189577-7e1eb15b-e042-4bd3-a7ae-49fd2c94e322.png)  
 
+While testing I also tried 5 segment display ([based on this design](https://scientific601.altervista.org/5segment2.html))  
+![5 Segment All](https://user-images.githubusercontent.com/82185066/198290907-22334999-72d2-4953-8374-e9908af539fd.png)  
+
+And obviously I had to try minimal possible amount of segments - 4 (based on design by [J Ladybug](https://youtu.be/tLgbD95xEEQ))  
+![4 Segment All](https://user-images.githubusercontent.com/82185066/198291186-25eeb7ed-5f33-4e49-aad4-a067424a86d7.png)  
+
+
 This was a really stupid, but a fun project to work on, I hope you enjoy!
 
 ## How to launch yourself using [Node.js](https://nodejs.org/en/) and [Visual Studio Code](https://code.visualstudio.com/download)
