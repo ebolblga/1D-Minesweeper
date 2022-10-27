@@ -18,7 +18,7 @@ I tried my best to stay as close to the original game as possible, for example i
 
 ![image](https://user-images.githubusercontent.com/82185066/198094451-85f70995-d1ca-4635-a152-ed5030b07ef9.png)  
 ![image](https://user-images.githubusercontent.com/82185066/198095915-14b74858-6d1f-439a-b70a-8fce335e683e.png)  
-![image](https://user-images.githubusercontent.com/82185066/198188603-6f3e1013-700f-4ce5-8f3b-ab8f0c951f50.png)
+![image](https://user-images.githubusercontent.com/82185066/198189577-7e1eb15b-e042-4bd3-a7ae-49fd2c94e322.png)
 
 
 
